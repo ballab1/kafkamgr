@@ -1,0 +1,33 @@
+version: '3.5'
+
+services:
+    kafkamgr:
+        build:
+            args:
+                CONTAINER_NAME: kafkamgr
+                CONTAINER_VERSION: 1.0.0
+                DEBUG_TRACE: 0
+                KM_ARGS: Djava.net.preferIPv4Stack=true
+            cache_from:
+                - alpine:3.6
+                - base_container:20180225
+                - openjdk_8u131.11-r2:20180225
+            context: .
+            dockerfile: Dockerfile
+        container_name: kafkamgr
+        environment:
+            APPLICATION_SECRET: letmein
+            KM_VERSION: 1.3.3.16
+        hostname: kafkamgr
+        image: kafkamgr:20180225
+        logging:
+            driver: json-file
+            options:
+                max-size: "10m"
+                max-file: "3"
+        ports:
+            - 8006:9000
+# only use when building a 'service container'
+#        restart: unless-stopped
+        volumes:
+            - ./vols/log:/var/log 
