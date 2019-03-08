@@ -1,0 +1,52 @@
+#!/bin/bash
+
+declare tools=/usr/local/bin
+declare km="kafka-manager-${KM_VERSION}"
+
+# get our code
+tar xvf "${KM['file']}"
+mv "$km" "kafka-manager-ws"
+cd "kafka-manager-ws"
+
+#cat << EOF > .sbtconfig
+#-J-Xns1024M
+#-J-Xms1024M
+#-J-Xmx1024M
+#-J-Xss1M
+#-J-XX:+CMSClassUnloadingEnabled
+#-J-XX:+UseConcMarkSweepGC
+#-J-XX:MaxPermSize=724M
+#-J-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+#-J-java.net.preferIPv4Stack=true
+#EOF
+
+# build application
+echo 'scalacOptions ++= Seq("-Xmax-classfile-name", "200")' >> build.sbt
+
+declare -i attempt
+for attempt in {0..4}; do
+    declare -i status
+    (./sbt clean dist) && status=$? || status=$?
+    [ "$status" -eq 0 ]  && [ -e "./target/universal/${km}.zip" ] && break
+    term.log "\nFailed to build kafka-manager.  retrying\n\n" 'warn'
+    [ $attempt -eq 4 ] && trap.die 'failed to build kafka-manager'
+done
+
+
+# install what we built
+unzip -o -d /tmp "./target/universal/${km}.zip"
+mkdir -p "$KM_HOME"
+cp -r "/tmp/${km}"/* "$KM_HOME"
+[ ! -e "${KM_CONFIGFILE}" ] || cp "${KM_CONFIGFILE}" "${KM_CONFIGFILE}".bak
+chmod 755 "${KM_HOME}/bin/kafka-manager"
+
+#create startup script
+cat << EOF > ${tools}/run.sh
+#!/bin/bash
+cd "$KM_HOME"
+shift
+exec "${KM_HOME}/bin/kafka-manager" -Dconfig.file="$KM_CONFIGFILE" "\${KM_ARGS}" "\${@}" 
+EOF
+
+rm -fr "${KM_HOME}/share"
+mkdir -p "${KM_HOME}/home"

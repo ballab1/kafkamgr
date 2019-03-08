@@ -1,0 +1,10 @@
+# kafka
+
+declare -A manager=(
+    ['user']=${KAFKA_MANAGER_USERNAME:-admin}
+    ['password']=${KAFKA_MANAGER_PASSWORD:-}
+    ['uid']=${KAFKA_MANAGER_UID:-$(manager.UID "$KAFKA_MANAGER_USERNAME")}
+    ['group']=${KAFKA_MANAGER_GROUP:-kafka}
+    ['gid']=${KAFKA_MANAGER_GID:-$(manager.GID "$KAFKA_MANAGER_GROUP")}
+    ['home']="${KAFKA_MANAGER_DIR:-/usr/local/kafka-manager}"
+)
