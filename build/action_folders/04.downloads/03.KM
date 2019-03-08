@@ -1,0 +1,10 @@
+#!/bin/bash
+
+declare -A KM=()
+KM['version']=${KM_VERSION:?}
+KM['file']="/tmp/kafka-manager-${KM['version']}.tar.gz"
+KM['url']="https://github.com/yahoo/kafka-manager/archive/${KM['version']}.tar.gz"
+KM['sha256_1.3.3.18']="9ce9455c8e84535b28b155ab9c7bdb270a15044a41562843cb1593b7fc91e86a"
+KM['sha256_1.3.3.22']="96cd4e4fe285c9c88c4b67a7d22010942a2794456672037f440957fd7bdd89a4"
+KM['sha256']="${KM['sha256_'${KM['version']}]}"
+KM['home']=${KM_HOME:-"/usr/local/kafka-manager"}

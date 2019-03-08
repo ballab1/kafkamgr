@@ -1,0 +1,8 @@
+# kafka-manager build Packages
+
+declare -a OPTS=( '--virtual' '.buildDependencies' )
+declare -a PKGS=( git 
+                  gnupg 
+                  tar 
+                  unzip 
+                  wget )
