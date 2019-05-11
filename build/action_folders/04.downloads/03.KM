@@ -7,5 +7,6 @@ KM['url']="https://github.com/yahoo/kafka-manager/archive/${KM['version']}.tar.g
 KM['sha256_1.3.3.18']="9ce9455c8e84535b28b155ab9c7bdb270a15044a41562843cb1593b7fc91e86a"
 KM['sha256_1.3.3.22']="96cd4e4fe285c9c88c4b67a7d22010942a2794456672037f440957fd7bdd89a4"
 KM['sha256_1.3.3.23']="8f4c81139d6db1e94be46cbc119722836d9d6a0dbb8e8d9338489568ed66f2c0"
+KM['sha256_2.0.0.2']="363f6619dd0ec82a53b4e304df62895e219fba2f83438c50953c32f695ca4e3b"
 KM['sha256']="${KM['sha256_'${KM['version']}]}"
 KM['home']=${KM_HOME:-"/usr/local/kafka-manager"}
