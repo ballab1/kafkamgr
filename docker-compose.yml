@@ -40,6 +40,6 @@ services:
             KAFKA_MANAGER_LOGLEVEL: INFO
 #            KM_HTTP_CONTEXT: /
             KM_HTTP_CONTEXT: /kafkamgr
-            ZK_HOSTS: zookeeper:2181,10.1.3.6:2181,10.1.3.11:2181
+            ZK_HOSTS: zookeeper:2181,10.1.3.6:2181,10.1.3.10:2181
         hostname: kafkamgr
         image: ${DOCKER_REGISTRY:-ubuntu-s2:5000/}${CONTAINER_OS:-alpine}/kafka-manager/${KM_VERSION:-2.0.0.2}:${CONTAINER_TAG:-latest}
