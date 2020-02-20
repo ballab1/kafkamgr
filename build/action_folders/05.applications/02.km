@@ -1,7 +1,7 @@
 #!/bin/bash
 
 declare tools=/usr/local/bin
-declare km="kafka-manager-${KM_VERSION:?}"
+declare km="CMAK-${KM_VERSION:?}"
 
 # get our code
 tar xvf "${KM['file']}"
