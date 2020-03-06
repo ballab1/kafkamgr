@@ -18,7 +18,7 @@ ARG KM_ARGS="-Djava.net.preferIPv4Stack=true -Dapplication.home=/usr/local/kafka
 ARG KM_CONTEXT=/
 
 # kafka.manager version being bundled in this docker image
-ARG KM_VERSION=3.0.0.0
+ARG KM_VERSION=3.0.0.4
 LABEL version.kafka.manager=$KM_VERSION
 
 
