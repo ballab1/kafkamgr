@@ -27,18 +27,19 @@ declare -i attempt
 for attempt in {0..4}; do
     declare -i status
     (./sbt clean dist) && status=$? || status=$?
-    [ "$status" -eq 0 ]  && [ -e "./target/universal/${km}.zip" ] && break
+#    [ "$status" -eq 0 ] && [ -e "./target/universal/${km,,}.zip" ] && break
+    [ -e "./target/universal/${km,,}.zip" ] && break
     term.log "\nFailed to build kafka-manager.  retrying\n\n" 'warn'
     [ $attempt -eq 4 ] && trap.die 'failed to build kafka-manager'
 done
 
 
 # install what we built
-unzip -o -d /tmp "./target/universal/${km}.zip"
+unzip -o -d /tmp "./target/universal/${km,,}.zip"
 mkdir -p "$KM_HOME"
-cp -r "/tmp/${km}"/* "$KM_HOME"
+cp -r "/tmp/${km,,}"/* "$KM_HOME"
 [ ! -e "${KM_CONFIGFILE}" ] || cp "${KM_CONFIGFILE}" "${KM_CONFIGFILE}".bak
-chmod a+rx "${KM_HOME}/bin/kafka-manager"
+chmod a+rx "${KM_HOME}/bin/cmak"
 
 #create startup script
 cat << EOF > ${tools}/run.sh
@@ -46,7 +47,7 @@ cat << EOF > ${tools}/run.sh
 cd "$KM_HOME"
 [ "\${APPLICATION_SECRET:-}" ] || lib.file_env 'APPLICATION_SECRET'
 [ "\${KAFKA_MANAGER_PASSWORD:-}" ] || lib.file_env 'KAFKA_MANAGER_PASSWORD'
-exec "${KM_HOME}/bin/kafka-manager" -Dconfig.file="$KM_CONFIGFILE" "\${KM_ARGS}" "\${@}" 
+exec "${KM_HOME}/bin/cmak" -Dconfig.file="$KM_CONFIGFILE" "\${KM_ARGS}" "\${@}" 
 EOF
 
 rm -fr "${KM_HOME}/share"

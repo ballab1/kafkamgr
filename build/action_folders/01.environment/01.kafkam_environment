@@ -4,7 +4,7 @@
 declare -ar env_kafkam=(
     'KM_ARGS="${KM_ARGS:-"-Djava.net.preferIPv4Stack=true"}"'
     'KM_HTTP_CONTEXT="${KM_HTTP_CONTEXT:-/}"'
-    'KM_HOME="${KM_HOME:-/usr/local/kafka-manager}"'
+    'KM_HOME="${KM_HOME:-/usr/local/cmak}"'
     'KM_CONFIGFILE="${KM_HOME}/conf/application.conf"'
     "KM_VERSION=${KM_VERSION:?}"
     'KAFKA_MANAGER_GROUP="${KAFKA_MANAGER_GROUP:-kafka}"'
